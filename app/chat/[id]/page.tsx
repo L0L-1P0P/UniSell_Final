@@ -361,7 +361,7 @@ export default function ChatPage() {
               trigger={
                 <DropdownMenuItem onSelect={(e) => e.preventDefault()} className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                   <Flag className="mr-2 h-4 w-4 text-red-600" />
-                  <span className="text-red-600">Report User</span>
+                  <span className="text-red-600">Report</span>
                 </DropdownMenuItem>
               }
             />
