@@ -1,0 +1,603 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "TitleFont";
+  src: url("/fonts/TitleFont.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius: 0.5rem;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 189 94% 43%; /* Cyan #00dee8 converted to HSL approx */
+    --primary-foreground: 0 0% 0%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 189 94% 43%;
+    --radius: 0.75rem;
+
+    /* NEW: UniSell Glass Design Tokens (Light Mode) */
+    --glass-bg: #ffffff;
+    --glass-border: #e5e7eb; /* gray-200 */
+    --glass-shadow: 0 15px 40px -10px rgba(0, 0, 0, 0.2);
+    --glass-hover-border: #00dee8;
+    --glass-hover-shadow: 0 0 30px rgba(0, 222, 232, 0.3);
+  }
+
+  .dark {
+    --background: 240 10% 3.9%; /* #1e1e1e approx */
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 189 94% 43%; /* Neon Cyan */
+    --primary-foreground: 0 0% 0%; /* Black text on neon button */
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 189 94% 43%;
+
+    /* NEW: UniSell Glass Design Tokens (Dark Mode) */
+    --glass-bg: #1e1e1e;
+    --glass-border: rgba(0, 222, 232, 0.5); /* Cyan with opacity */
+    --glass-shadow: 0 20px 50px -10px rgba(0, 0, 0, 1);
+    --glass-hover-border: #00dee8;
+    --glass-hover-shadow: 0 0 35px rgba(0, 222, 232, 0.25);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  ::selection {
+    background-color: #00dee8; /* Neon Cyan */
+    color: black;
+  }
+
+  body {
+    @apply text-foreground min-h-screen transition-colors duration-500;
+
+    /* LIGHT MODE BACKGROUND: Cyan Glow on White */
+    /* Exact same structure as Dark Mode: Center Cyan -> Edge Background */
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 222, 232, 0.15) 0%,
+        rgba(255, 255, 255, 1) 70%
+      ),
+      #ffffff;
+  }
+
+  /* DARK MODE BACKGROUND */
+  .dark body {
+    background: radial-gradient(
+        circle at center,
+        rgba(0, 124, 130, 0.2) 10%,
+        rgba(0, 173, 181, 0.1) 20%,
+        #1e1e1e 55%
+      ),
+      #1e1e1e;
+  }
+
+  /* Admin Page Override - Pure Black (Higher Specificity) */
+  .dark .admin-layout {
+    background: #000000 !important;
+  }
+}
+
+@layer components {
+  .glass-card {
+    /* --- LAYOUT & POSITIONING --- */
+    @apply relative z-10 rounded-2xl;
+
+    /* --- THE "PROPER" FIX (Layer Separation) --- */
+    isolation: isolate; /* Creates a new Stacking Context */
+    transform: translate3d(0, 0, 0); /* Forces a separate GPU Layer */
+    backface-visibility: hidden; /* Prevents pixel bleeding */
+    contain: content; /* Isolates the element's paint */
+    background-clip: padding-box; /* Prevents background bleeding */
+
+    @apply transition-all duration-300 ease-in-out;
+
+    /* --- THEMED COLORS (Using Variables) --- */
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+  }
+
+  .glass-card:hover {
+    border-color: var(--glass-hover-border);
+    box-shadow: var(--glass-hover-shadow);
+  }
+
+  .category-tile {
+    /* LAYOUT */
+    @apply relative flex flex-col items-center justify-center;
+    @apply shrink-0 snap-start;
+    @apply transition-all duration-300 ease-out;
+
+    /* DIMENSIONS (Fixed Square) */
+    @apply aspect-square w-28 sm:w-36 md:w-48;
+
+    /* VISUALS (Clean Solid Look) */
+    @apply rounded-2xl border-2;
+    /* Light Mode: White background, subtle gray border */
+    @apply bg-white border-gray-100 text-gray-600;
+    /* Dark Mode: Dark gray background, subtle border */
+    @apply dark:bg-[#27272a] dark:border-gray-800 dark:text-gray-300;
+
+    /* SHADOW (Soft lift) */
+    @apply shadow-sm hover:shadow-md;
+  }
+
+  .category-tile:hover {
+    /* ACTIVE STATE (Theme Color) */
+    @apply border-[#00dee8] text-[#00dee8];
+    @apply -translate-y-1; /* Slight lift up */
+  }
+
+  /* Ensure icon inside inherits the hover color */
+  .category-tile:hover svg {
+    @apply text-[#00dee8];
+  }
+}
+
+/* UPDATED INPUT FIELDS */
+.glass-card input,
+.glass-card textarea,
+.glass-card select,
+.glass-card button[role="combobox"] {
+  /* Base Styles */
+  @apply h-11 px-4 rounded-lg;
+  @apply outline-none transition-all duration-200 ease-in-out;
+
+  /* Light Mode Colors */
+  @apply bg-white border border-gray-400 text-black;
+  @apply placeholder:text-gray-400;
+
+  /* Dark Mode Colors */
+  @apply dark:bg-black/50 dark:border-gray-600 dark:text-white;
+  @apply dark:placeholder:text-gray-500;
+
+  /* FOCUS STATE (The Fix) */
+  /* When user clicks/selects, border turns Neon Cyan immediately */
+  @apply focus:border-[#00dee8] focus:ring-1 focus:ring-[#00dee8];
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+.animate-delay-200 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+.animate-delay-400 {
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* Custom Components */
+/* Glow Buttons */
+@layer components {
+  .btn-glow {
+    /* Removed fixed sizing and radius so it inherits from button.tsx */
+    @apply relative cursor-pointer select-none transition-all duration-300;
+    @apply text-black bg-white outline-none z-0;
+    box-shadow: 0px 4px 10px 0px #999;
+  }
+
+  .btn-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      60deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    background-size: 400% 400%;
+    filter: blur(10px);
+    border-radius: inherit; /* Key: Inherits standard button radius */
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    animation: glowing 6s linear infinite;
+    z-index: -1;
+    box-shadow: none;
+  }
+
+  .btn-glow:hover::before,
+  .btn-glow:active::before {
+    opacity: 1;
+    box-shadow: none;
+  }
+
+  .btn-glow::after {
+    box-shadow: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    border-radius: inherit;
+    z-index: -1;
+  }
+
+  .btn-glow:hover {
+    box-shadow: none;
+    background: #fff;
+    color: #000;
+  }
+
+  .btn-glow:active {
+    background: transparent;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .btn-glow:active::after {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Dark Mode Overrides for btn-glow */
+  .dark .btn-glow {
+    box-shadow: 0px 4px 10px 0px #111;
+    background: #1e1e1e;
+    color: #fff;
+  }
+  .dark .btn-glow::after {
+    background: #1e1e1e;
+    box-shadow: none;
+  }
+  .dark .btn-glow:hover {
+    box-shadow: none;
+    background: transparent;
+    color: #fff;
+  }
+  .dark .btn-glow:active {
+    box-shadow: none;
+    background: transparent;
+  }
+  .dark .btn-glow:active::after {
+    box-shadow: none;
+    background: transparent;
+  }
+
+  /* --- GLOW ALT BUTTON (Neon Cyan) --- */
+  .btn-glow-alt {
+    /* Removed fixed sizing and radius */
+    @apply relative cursor-pointer select-none transition-all duration-300;
+    @apply text-black bg-white outline-none z-0;
+    box-shadow: 0px 4px 10px 0px #999;
+    background: #00dee8;
+    color: #000;
+  }
+
+  .btn-glow-alt::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      60deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    background-size: 400% 400%;
+    filter: blur(10px);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    animation: glowing 6s linear infinite;
+    z-index: -1;
+    box-shadow: none;
+  }
+
+  .btn-glow-alt:hover::before,
+  .btn-glow-alt:active::before {
+    opacity: 1;
+    box-shadow: none;
+  }
+
+  .btn-glow-alt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #00dee8;
+    border-radius: inherit;
+    z-index: -1;
+    box-shadow: none;
+  }
+
+  .btn-glow-alt:hover {
+    border-color: transparent;
+    background: transparent;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .btn-glow-alt:active {
+    background: transparent;
+    border-color: transparent;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .btn-glow-alt:active::after {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Dark Mode Overrides for btn-glow-alt */
+  .dark .btn-glow-alt {
+    box-shadow: 0px 4px 10px 0px #111;
+    background: #00dee8;
+    color: #000;
+  }
+  .dark .btn-glow-alt::after {
+    background: #00dee8;
+    box-shadow: none;
+  }
+  .dark .btn-glow-alt:hover {
+    box-shadow: none;
+    background: transparent;
+    color: #000;
+  }
+  .dark .btn-glow-alt:active {
+    background: transparent;
+    box-shadow: none;
+  }
+  .dark .btn-glow-alt:active::after {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* --- PURE GLOWING BUTTON (Neon Cyan) --- */
+  .btn-pure-glow {
+    /* Removed fixed sizing and radius */
+    @apply relative cursor-pointer select-none transition-all duration-300;
+    @apply text-black bg-white outline-none z-0;
+    background: #00dee8;
+    color: #000;
+  }
+
+  .btn-pure-glow::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      60deg,
+      #ff0000,
+      #ff7300,
+      #fffb00,
+      #48ff00,
+      #00ffd5,
+      #002bff,
+      #7a00ff,
+      #ff00c8,
+      #ff0000
+    );
+    background-size: 400% 400%;
+    filter: blur(10px);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.1s ease-in-out;
+    animation: glowing 6s linear infinite;
+    z-index: -1;
+    box-shadow: none;
+  }
+
+  .btn-pure-glow:hover::before,
+  .btn-pure-glow:active::before {
+    opacity: 1;
+    box-shadow: none;
+  }
+
+  .btn-pure-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #00dee8;
+    border-radius: inherit;
+    z-index: -1;
+    box-shadow: none;
+  }
+
+  .btn-pure-glow:hover {
+    border-color: transparent;
+    background: transparent;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .btn-pure-glow:active {
+    background: transparent;
+    border-color: transparent;
+    color: #000;
+    box-shadow: none;
+  }
+
+  .btn-pure-glow:active::after {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  /* Dark Mode Overrides for btn-pure-glow */
+  .dark .btn-pure-glow {
+    background: #00dee8;
+    color: #000;
+  }
+  .dark .btn-pure-glow::after {
+    background: #00dee8;
+    box-shadow: none;
+  }
+  .dark .btn-pure-glow:hover {
+    box-shadow: none;
+    background: transparent;
+    color: #000;
+  }
+  .dark .btn-pure-glow:active {
+    background: transparent;
+    box-shadow: none;
+  }
+  .dark .btn-pure-glow:active::after {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+/* Animations */
+@keyframes glowing {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 400% 50%;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@layer utilities {
+  /* Mobile Scrollbar: Always visible, thin, styled */
+  .mobile-scrollbar::-webkit-scrollbar {
+    height: 6px;
+    display: block; /* Force show */
+  }
+  .mobile-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+  }
+  .mobile-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 222, 232, 0.5); /* Cyan thumb */
+    border-radius: 10px;
+  }
+  .dark .mobile-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .fluid-card {
+    /* MATH: 
+       - Min Width: 100px (Mobile)
+       - Max Width: 180px (Desktop)
+       - Preferred: 20% of Viewport Width (20vw)
+    */
+    width: clamp(100px, 18vw, 160px);
+
+    /* Force Square Aspect Ratio based on the dynamic width */
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    height: 8px; /* Horizontal height */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent; /* Clean track */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5); /* Gray-400 semi-transparent */
+    border-radius: 20px; /* Pill shape */
+  }
+
+  /* Dark Mode Thumb */
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* Hover State */
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: #00dee8; /* Neon Cyan on hover! */
+  }
+
+  /* Hide navbar on banned page */
+  body.hide-navbar nav {
+    display: none !important;
+  }
+}
