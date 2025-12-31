@@ -58,7 +58,7 @@ export function ListingRejectionDialog({ listingId, listingTitle, open, onOpenCh
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] bg-white dark:bg-[#1e1e1e]">
         <DialogHeader>
           <DialogTitle>Reject Listing</DialogTitle>
           <DialogDescription>
