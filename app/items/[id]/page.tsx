@@ -1,5 +1,5 @@
 import { redirect, notFound } from "next/navigation";
-import { createClient } from "@/utils/supabase/server"
+import { createClient } from "@/utils/supabase/server";
 import { checkBanStatus } from "@/utils/ban-check";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,8 +17,8 @@ export default async function ListingDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await checkBanStatus()
-  
+  await checkBanStatus();
+
   const supabase = await createClient();
   const { id } = await params;
 
@@ -43,7 +43,7 @@ export default async function ListingDetailPage({
     .select(
       `
       *,
-      seller:profiles!seller_id(id, full_name, campus)
+      seller:profiles!seller_id(id, full_name, campus, mobile_number)
     `
     )
     .eq("id", id)
@@ -64,7 +64,9 @@ export default async function ListingDetailPage({
   const isFavorited = !!favorite;
 
   // Fetch seller rating
-  const { averageRating, totalReviews } = await getSellerRating(listing.seller.id);
+  const { averageRating, totalReviews } = await getSellerRating(
+    listing.seller.id
+  );
 
   const formatPrice = (price: number) => {
     return price === 0 ? "Free" : `RM ${price.toFixed(2)}`;
@@ -226,6 +228,11 @@ export default async function ListingDetailPage({
                   <p className="text-sm text-muted-foreground">
                     {listing.seller.campus} Campus
                   </p>
+                  {listing.show_contact_info && listing.seller.mobile_number && (
+                    <p className="text-sm text-cyan-600 dark:text-cyan-400 font-medium mt-1">
+                      📞 {listing.seller.mobile_number}
+                    </p>
+                  )}
                   {/* Seller Rating */}
                   {totalReviews > 0 ? (
                     <div className="flex items-center gap-1 mt-1">
@@ -235,18 +242,21 @@ export default async function ListingDetailPage({
                             key={star}
                             className={`h-3 w-3 ${
                               star <= Math.round(averageRating)
-                                ? 'fill-yellow-400 text-yellow-400'
-                                : 'text-gray-300'
+                                ? "fill-yellow-400 text-yellow-400"
+                                : "text-gray-300"
                             }`}
                           />
                         ))}
                       </div>
                       <span className="text-xs text-muted-foreground">
-                        {averageRating.toFixed(1)} ({totalReviews} {totalReviews === 1 ? 'review' : 'reviews'})
+                        {averageRating.toFixed(1)} ({totalReviews}{" "}
+                        {totalReviews === 1 ? "review" : "reviews"})
                       </span>
                     </div>
                   ) : (
-                    <p className="text-xs text-muted-foreground mt-1">No reviews yet</p>
+                    <p className="text-xs text-muted-foreground mt-1">
+                      No reviews yet
+                    </p>
                   )}
                 </div>
               </div>
@@ -384,6 +394,11 @@ export default async function ListingDetailPage({
                     <p className="text-sm text-muted-foreground">
                       {listing.seller.campus} Campus
                     </p>
+                    {listing.show_contact_info && listing.seller.mobile_number && (
+                      <p className="text-sm text-cyan-600 dark:text-cyan-400 font-medium mt-1">
+                        📞 {listing.seller.mobile_number}
+                      </p>
+                    )}
                     {/* Seller Rating */}
                     {totalReviews > 0 ? (
                       <div className="flex items-center gap-1 mt-1">
@@ -393,18 +408,21 @@ export default async function ListingDetailPage({
                               key={star}
                               className={`h-3 w-3 ${
                                 star <= Math.round(averageRating)
-                                  ? 'fill-yellow-400 text-yellow-400'
-                                  : 'text-gray-300'
+                                  ? "fill-yellow-400 text-yellow-400"
+                                  : "text-gray-300"
                               }`}
                             />
                           ))}
                         </div>
                         <span className="text-xs text-muted-foreground">
-                          {averageRating.toFixed(1)} ({totalReviews} {totalReviews === 1 ? 'review' : 'reviews'})
+                          {averageRating.toFixed(1)} ({totalReviews}{" "}
+                          {totalReviews === 1 ? "review" : "reviews"})
                         </span>
                       </div>
                     ) : (
-                      <p className="text-xs text-muted-foreground mt-1">No reviews yet</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        No reviews yet
+                      </p>
                     )}
                   </div>
                 </div>
