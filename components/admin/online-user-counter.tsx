@@ -9,7 +9,7 @@ export function OnlineUserCounter() {
 
   return (
     <StatCard
-      title="Active Users (Online)"
+      title="Online Users"
       value={onlineCount}
       icon={UserCheck}
       variant="default"
