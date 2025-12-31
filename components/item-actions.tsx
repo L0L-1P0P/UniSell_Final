@@ -40,7 +40,7 @@ export function ItemActions({ itemId }: ItemActionsProps) {
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" className="bg-white dark:bg-[#1e1e1e]">
         <DropdownMenuItem onClick={handleEdit} className="cursor-pointer">
           <Pencil className="mr-2 h-4 w-4" /> Edit
         </DropdownMenuItem>
