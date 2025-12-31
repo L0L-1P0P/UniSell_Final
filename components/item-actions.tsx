@@ -36,15 +36,15 @@ export function ItemActions({ itemId }: ItemActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="hover:bg-cyan-100 dark:hover:bg-cyan-900/20 hover:scale-110 transition-all">
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="bg-white dark:bg-[#1e1e1e]">
-        <DropdownMenuItem onClick={handleEdit} className="cursor-pointer">
+        <DropdownMenuItem onClick={handleEdit} className="cursor-pointer hover:bg-cyan-100 dark:hover:bg-cyan-900/30 transition-colors">
           <Pencil className="mr-2 h-4 w-4" /> Edit
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={handleDelete} className="text-red-600 cursor-pointer">
+        <DropdownMenuItem onClick={handleDelete} className="text-red-600 cursor-pointer hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors">
           <Trash className="mr-2 h-4 w-4" /> Delete
         </DropdownMenuItem>
       </DropdownMenuContent>

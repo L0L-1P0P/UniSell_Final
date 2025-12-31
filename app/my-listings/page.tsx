@@ -158,7 +158,7 @@ export default async function MyListingsPage() {
           <TabsContent value="active" className="space-y-4">
             {activeItems && activeItems.length > 0 ? (
               activeItems.map((item: any) => (
-                <div key={item.id} className="flex items-center gap-4 p-4 rounded-lg border border-border bg-white dark:bg-[#2a2a2a] hover:shadow-md transition-all">
+                <div key={item.id} className="flex items-center gap-4 p-4 rounded-lg border border-gray-200 dark:border-gray-800 shadow-sm bg-white dark:bg-[#2a2a2a] hover:shadow-lg hover:border-cyan-500/30 transition-all">
                   {/* Image */}
                   <div className="relative h-16 w-16 rounded-md overflow-hidden bg-muted shrink-0">
                     {item.images && item.images[0] ? (
