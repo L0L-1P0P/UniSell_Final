@@ -81,7 +81,7 @@ export function PermanentDeleteButton({ listingId, listingTitle, hasConversation
       )}
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white dark:bg-[#1e1e1e]">
           <AlertDialogHeader>
             <AlertDialogTitle>Permanently delete this listing?</AlertDialogTitle>
             <AlertDialogDescription asChild>

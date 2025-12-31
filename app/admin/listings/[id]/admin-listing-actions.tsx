@@ -68,7 +68,7 @@ export function AdminListingActions({ listingId, listingTitle }: AdminListingAct
 
       {/* Hide Reason Dialog */}
       <Dialog open={showHideDialog} onOpenChange={setShowHideDialog}>
-        <DialogContent>
+        <DialogContent className="bg-white dark:bg-[#1e1e1e]">
           <DialogHeader>
             <DialogTitle>Hide this listing?</DialogTitle>
             <DialogDescription>

@@ -196,7 +196,7 @@ export function AnnouncementsList({ announcements: initialAnnouncements }: Annou
 
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white dark:bg-[#1e1e1e]">
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Announcement?</AlertDialogTitle>
             <AlertDialogDescription>

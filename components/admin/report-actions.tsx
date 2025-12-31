@@ -185,7 +185,7 @@ export function ReportActions({
 
       {/* Hide Listing Dialog */}
       <AlertDialog open={showHideDialog} onOpenChange={setShowHideDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white dark:bg-[#1e1e1e]">
           <AlertDialogHeader>
             <AlertDialogTitle>Hide Listing</AlertDialogTitle>
             <AlertDialogDescription>
@@ -230,7 +230,7 @@ export function ReportActions({
 
       {/* Dismiss Confirmation Dialog */}
       <AlertDialog open={showDismissDialog} onOpenChange={setShowDismissDialog}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white dark:bg-[#1e1e1e]">
           <AlertDialogHeader>
             <AlertDialogTitle>Dismiss Report</AlertDialogTitle>
             <AlertDialogDescription>

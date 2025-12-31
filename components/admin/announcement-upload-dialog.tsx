@@ -100,7 +100,7 @@ export function AnnouncementUploadDialog() {
           Upload Announcement
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] bg-white dark:bg-[#1e1e1e]">
         <DialogHeader>
           <DialogTitle>Upload Announcement Image</DialogTitle>
           <DialogDescription>
