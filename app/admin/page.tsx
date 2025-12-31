@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { StatCard } from "@/components/admin/stat-card"
-import { Users, UserCheck, Package, Flag, UserCog, ShoppingBag } from "lucide-react"
+import { Users, Package, Flag, UserCog, ShoppingBag } from "lucide-react"
+import { OnlineUserCounter } from "@/components/admin/online-user-counter"
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -22,12 +23,7 @@ export default async function AdminDashboard() {
     .eq('status', 'pending')
 
   // Fetch General Stats (Row 2)
-  // Active Users - users who logged in within last 24 hours (using last_sign_in_at from auth)
-  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString()
-  const { data: authUsers } = await supabase.auth.admin.listUsers()
-  const activeUsers = authUsers?.users?.filter(
-    user => user.last_sign_in_at && new Date(user.last_sign_in_at) > new Date(oneDayAgo)
-  ).length || 0
+
 
   const { count: activeListings } = await supabase
     .from('items')
@@ -87,12 +83,7 @@ export default async function AdminDashboard() {
           General Statistics
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <StatCard
-            title="Active Users (24h)"
-            value={activeUsers}
-            icon={UserCheck}
-            variant="default"
-          />
+          <OnlineUserCounter />
           
           <StatCard
             title="Active Listings"
